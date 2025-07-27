@@ -8,9 +8,10 @@ import { useToast } from "@/hooks/use-toast";
 import cookie from "js-cookie";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const token = cookie.get("token");
+
 
 export default function Cart() {
+  const token = cookie.get("token");
   const [items, setItems] = useState([]);
   const { toast } = useToast();
 
