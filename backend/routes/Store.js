@@ -145,9 +145,9 @@ router.post("/pay", verifyToken, async (req, res) => {
         amount: finalAmount * 100,
         currency_code: "AED",
         message: "Order payment",
-        success_url: "https://yourdomain.com/success",
-        cancel_url: "https://yourdomain.com/cancel",
-        failure_url: "https://yourdomain.com/failure",
+        success_url: "www.dubaifitmovement.xyz",
+        cancel_url: "www.dubaifitmovement.xyz",
+        failure_url: "www.dubaifitmovement.xyz",
         test: true,
         transaction_source: "directApi",
         customer: {
