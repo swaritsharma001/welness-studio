@@ -12,7 +12,7 @@ const app = express();
 
 // ✅ CORS MUST BE FIRST
 app.use(cors({
-  origin: "https://www.dubaifitmovement.xyz",
+  origin: "https://dubaifitmovement.xyz",
   credentials: true
 }));
 
