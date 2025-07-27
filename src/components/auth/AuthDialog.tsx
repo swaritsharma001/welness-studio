@@ -1,4 +1,4 @@
-import { useState } from "react";
+uimport { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,7 +50,7 @@ export function AuthDialog({ open, onOpenChange, mode, onModeChange }: AuthDialo
       }
 
       if (res.status === 200) {
-        cookie.set("token", res.data.token);
+        
         toast({
           title: mode === "login" ? "Login Successful" : "Account Created",
           description: mode === "login"
