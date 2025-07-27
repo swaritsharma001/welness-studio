@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Yoga-inspired design system with wellness colors and gradients */
+
+@layer base {
+  :root {
+    --background: 35 100% 98%;
+    --foreground: 147 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 147 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 147 25% 15%;
+
+    --primary: 147 50% 47%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 147 45% 65%;
+
+    --secondary: 35 100% 95%;
+    --secondary-foreground: 147 25% 15%;
+
+    --muted: 35 100% 96%;
+    --muted-foreground: 147 15% 45%;
+
+    --accent: 280 30% 85%;
+    --accent-foreground: 147 25% 15%;
+
+    --wellness: 200 50% 80%;
+    --wellness-foreground: 147 25% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 147 25% 88%;
+    --input: 147 25% 92%;
+    --ring: 147 50% 47%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(147 50% 47% / 0.9), hsl(280 30% 65% / 0.8));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.8), hsl(35 100% 98% / 0.9));
+    --gradient-wellness: linear-gradient(120deg, hsl(var(--wellness)), hsl(var(--accent)));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(147 50% 47% / 0.15);
+    --shadow-card: 0 8px 30px hsl(147 25% 15% / 0.1);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 147 25% 8%;
+    --foreground: 35 100% 95%;
+
+    --card: 147 25% 12%;
+    --card-foreground: 35 100% 95%;
+
+    --popover: 147 25% 12%;
+    --popover-foreground: 35 100% 95%;
+
+    --primary: 147 45% 65%;
+    --primary-foreground: 147 25% 8%;
+    --primary-glow: 147 50% 75%;
+
+    --secondary: 147 25% 15%;
+    --secondary-foreground: 35 100% 95%;
+
+    --muted: 147 25% 15%;
+    --muted-foreground: 147 15% 65%;
+
+    --accent: 280 25% 25%;
+    --accent-foreground: 35 100% 95%;
+
+    --wellness: 200 40% 35%;
+    --wellness-foreground: 35 100% 95%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 147 25% 20%;
+    --input: 147 25% 18%;
+    --ring: 147 45% 65%;
+
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(147 45% 65% / 0.8), hsl(280 25% 35% / 0.7));
+    --gradient-card: linear-gradient(145deg, hsl(147 25% 12% / 0.9), hsl(147 25% 15% / 0.8));
+    --gradient-wellness: linear-gradient(120deg, hsl(var(--wellness)), hsl(var(--accent)));
+
+    /* Dark shadows */
+    --shadow-soft: 0 4px 20px hsl(147 25% 8% / 0.5);
+    --shadow-card: 0 8px 30px hsl(147 25% 8% / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.2);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
