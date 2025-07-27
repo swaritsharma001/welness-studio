@@ -22,6 +22,12 @@ router.post("/signup", async (req, res) => {
 
   const token = await Createtoken(newUser);
 
+  res.cookie("token", token, {
+  domain: ".dubaifitmovement.xyz",
+  httpOnly: true,
+  sameSite: "None",
+  secure: true
+});
   
 
   res.json({ message: "User created successfully", token});
@@ -46,7 +52,12 @@ router.post("/login", async (req, res) => {
 
   const token = await Createtoken(user);
 
-  
+  res.cookie("token", token, {
+  domain: ".dubaifitmovement.xyz",
+  httpOnly: true,
+  sameSite: "None",
+  secure: true
+});
 
   res.json({ message: "User created successfully", token});
 });
