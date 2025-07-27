@@ -12,7 +12,7 @@ const app = express();
 
 // ✅ CORS MUST BE FIRST
 app.use(cors({
-  origin: "https://30b331c5-e74d-42f4-b47d-181d7e278fa2-00-w1kjwxdjeqni.pike.replit.dev:8080",
+  origin: "https://www.dubaifitmovement.xyz",
   credentials: true
 }));
 
