@@ -50,7 +50,7 @@ export function AuthDialog({ open, onOpenChange, mode, onModeChange }: AuthDialo
       }
 
       if (res.status === 200) {
-        
+        console.log(res)
         toast({
           title: mode === "login" ? "Login Successful" : "Account Created",
           description: mode === "login"
