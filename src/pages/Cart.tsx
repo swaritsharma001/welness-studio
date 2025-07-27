@@ -28,7 +28,9 @@ export default function Cart() {
     const fetchCart = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/store/cart`, {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         });
         const cartItems = response.data.cart?.items || [];
         const formattedItems = cartItems.map((item) => ({
@@ -68,7 +70,7 @@ export default function Cart() {
         { productId: id, quantity: newQuantity },
         {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         }
@@ -91,7 +93,7 @@ export default function Cart() {
     try {
       await axios.delete(`${API_URL}/api/store/cart/remove/${id}`, {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
       setItems((prev) => prev.filter((item) => item.id !== id));
@@ -109,7 +111,7 @@ export default function Cart() {
     try {
       await axios.delete(`${API_URL}/api/store/cart/clear`, {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
       setItems([]);
@@ -161,7 +163,9 @@ export default function Cart() {
       const response = await axios.post(
         `${API_URL}/api/store/pay`,
         { address },
-        { withCredentials: true }
+        { headers: {
+          "Authorization": `Bearer ${token}`
+        } }
       );
       const paymentUrl = response.data.payment_url?.redirect_url;
       if (paymentUrl) {
