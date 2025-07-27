@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
-//import cookie from "js-cookie";
+import cookie from "js-cookie";
 import axios from "axios";
 
 interface AuthDialogProps {
@@ -50,7 +50,14 @@ export function AuthDialog({ open, onOpenChange, mode, onModeChange }: AuthDialo
       }
 
       if (res.status === 200) {
-        console.log(res)
+        const token = res.data.token
+        cookies.set("token", token, {
+      expires: 7, // days
+      secure: true,
+      sameSite: "None",
+      domain: ".dubaifitmovement.xyz",
+      path: "/"
+    });
         toast({
           title: mode === "login" ? "Login Successful" : "Account Created",
           description: mode === "login"
