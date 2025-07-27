@@ -5,8 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import cookie from "js-cookie"
 
 const API_URL = import.meta.env.VITE_API_URL;
+const token = cookie.get("token")
 
 export default function Cart() {
   const [items, setItems] = useState([]);
@@ -60,7 +62,13 @@ export default function Cart() {
       await axios.put(
         `${API_URL}/api/store/cart/update`,
         { productId: id, quantity: newQuantity },
-        { withCredentials: true }
+        {
+          headers: {
+            "Authorization": `${token}`
+          },
+          withCredentials: true
+        },
+         
       );
       setItems((prev) =>
         prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
@@ -76,7 +84,9 @@ export default function Cart() {
 
   const removeFromCart = async (id) => {
     try {
-      await axios.delete(`${API_URL}/api/store/cart/remove/${id}`, { withCredentials: true });
+      await axios.delete(`${API_URL}/api/store/cart/remove/${id}`, { headers: {
+        "Authorization": `${token}`
+      } });
       setItems((prev) => prev.filter((item) => item.id !== id));
       toast({ title: "Removed", description: "Item removed from cart." });
     } catch {
@@ -90,7 +100,9 @@ export default function Cart() {
 
   const clearCart = async () => {
     try {
-      await axios.delete(`${API_URL}/api/store/cart/clear`, { withCredentials: true });
+      await axios.delete(`${API_URL}/api/store/cart/clear`, { headers: {
+        "Authorization": `${token}`
+      } });
       setItems([]);
       toast({ title: "Cart cleared", description: "All items have been removed from your cart." });
     } catch {
@@ -116,7 +128,7 @@ export default function Cart() {
       !address.street||
       !address.city ||
       !address.state ||
-      !address.postalCode||
+      !address.pincode||
       !address.country ||
       !address.phone
     ) {
