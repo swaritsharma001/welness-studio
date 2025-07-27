@@ -85,7 +85,7 @@ export default function Shop() {
         { productId: product._id },
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `${token}`,
           },
           withCredentials: true,  // ✅ Required if your server uses cookies
         }
