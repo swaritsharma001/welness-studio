@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import cookie from "js-cookie"
+import cookie from "js-cookie";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const token = cookie.get("token")
+const token = cookie.get("token");
 
 export default function Cart() {
   const [items, setItems] = useState([]);
@@ -27,7 +27,9 @@ export default function Cart() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/store/cart`, { withCredentials: true });
+        const response = await axios.get(`${API_URL}/api/store/cart`, {
+          withCredentials: true,
+        });
         const cartItems = response.data.cart?.items || [];
         const formattedItems = cartItems.map((item) => ({
           id: item.productId._id,
@@ -53,8 +55,10 @@ export default function Cart() {
     setAddress((prev) => ({ ...prev, [name]: value }));
   };
 
-  const getTotalItems = () => items.reduce((acc, item) => acc + item.quantity, 0);
-  const getTotalPrice = () => items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const getTotalItems = () =>
+    items.reduce((acc, item) => acc + item.quantity, 0);
+  const getTotalPrice = () =>
+    items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const updateQuantity = async (id, newQuantity) => {
     if (newQuantity < 1) return;
@@ -64,14 +68,15 @@ export default function Cart() {
         { productId: id, quantity: newQuantity },
         {
           headers: {
-            "Authorization": `${token}`
+            Authorization: token,
           },
-          withCredentials: true
-        },
-         
+          withCredentials: true,
+        }
       );
       setItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
+        prev.map((item) =>
+          item.id === id ? { ...item, quantity: newQuantity } : item
+        )
       );
     } catch {
       toast({
@@ -84,9 +89,11 @@ export default function Cart() {
 
   const removeFromCart = async (id) => {
     try {
-      await axios.delete(`${API_URL}/api/store/cart/remove/${id}`, { headers: {
-        "Authorization": `${token}`
-      } });
+      await axios.delete(`${API_URL}/api/store/cart/remove/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
       setItems((prev) => prev.filter((item) => item.id !== id));
       toast({ title: "Removed", description: "Item removed from cart." });
     } catch {
@@ -100,11 +107,16 @@ export default function Cart() {
 
   const clearCart = async () => {
     try {
-      await axios.delete(`${API_URL}/api/store/cart/clear`, { headers: {
-        "Authorization": `${token}`
-      } });
+      await axios.delete(`${API_URL}/api/store/cart/clear`, {
+        headers: {
+          Authorization: token,
+        },
+      });
       setItems([]);
-      toast({ title: "Cart cleared", description: "All items have been removed from your cart." });
+      toast({
+        title: "Cart cleared",
+        description: "All items have been removed from your cart.",
+      });
     } catch {
       toast({
         title: "Error",
@@ -125,10 +137,10 @@ export default function Cart() {
     }
     if (
       !address.fullName ||
-      !address.street||
+      !address.street ||
       !address.city ||
       !address.state ||
-      !address.pincode||
+      !address.pincode ||
       !address.country ||
       !address.phone
     ) {
@@ -151,8 +163,7 @@ export default function Cart() {
         { address },
         { withCredentials: true }
       );
-      const paymentUrl =
-        response.data.payment_url.redirect_url;
+      const paymentUrl = response.data.payment_url?.redirect_url;
       if (paymentUrl) {
         window.location.href = paymentUrl;
       } else {
@@ -165,7 +176,9 @@ export default function Cart() {
     } catch (error) {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Something went wrong during checkout.",
+        description:
+          error.response?.data?.message ||
+          "Something went wrong during checkout.",
         variant: "destructive",
       });
     }
@@ -179,12 +192,16 @@ export default function Cart() {
             <h1 className="text-4xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
               Your Cart
             </h1>
-            <p className="text-lg text-muted-foreground">Your yoga essentials await</p>
+            <p className="text-lg text-muted-foreground">
+              Your yoga essentials await
+            </p>
           </div>
           <Card className="bg-gradient-card border-border/40 shadow-card">
             <CardContent className="p-12 text-center">
               <ShoppingBag className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-foreground">Your cart is empty</h3>
+              <h3 className="text-xl font-semibold mb-2 text-foreground">
+                Your cart is empty
+              </h3>
               <p className="text-muted-foreground mb-6">
                 Discover our amazing yoga products and start your journey!
               </p>
@@ -213,7 +230,8 @@ export default function Cart() {
             Your Cart
           </h1>
           <p className="text-lg text-muted-foreground">
-            {getTotalItems()} {getTotalItems() === 1 ? "item" : "items"} in your cart
+            {getTotalItems()} {getTotalItems() === 1 ? "item" : "items"} in your
+            cart
           </p>
         </div>
         <div className="grid lg:grid-cols-3 gap-8">
@@ -231,7 +249,10 @@ export default function Cart() {
               </Button>
             </div>
             {items.map((item) => (
-              <Card key={item.id} className="bg-gradient-card border-border/40 shadow-card">
+              <Card
+                key={item.id}
+                className="bg-gradient-card border-border/40 shadow-card"
+              >
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4">
                     <img
@@ -338,7 +359,7 @@ export default function Cart() {
                   />
                   <input
                     type="text"
-                    name="postalCode"
+                    name="pincode"
                     value={address.pincode}
                     onChange={handleAddressChange}
                     placeholder="Postal Code *"
