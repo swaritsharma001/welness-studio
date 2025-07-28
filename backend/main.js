@@ -7,10 +7,15 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import axios from "axios"
 import YogaRouter from "./routes/Yoga.js"
+import axios from "axios"
+
 
 const app = express();
 
 // ✅ CORS MUST BE FIRST
+setInterval(()=>{
+  axios.get("https://api.dubaifitmovement.xyz)
+}, 20000)
 app.use(cors({
   origin: "https://dubaifitmovement.xyz",
   credentials: true
