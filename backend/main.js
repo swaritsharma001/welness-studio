@@ -13,9 +13,9 @@ import YogaRouter from "./routes/Yoga.js"
 const app = express();
 
 // ✅ CORS MUST BE FIRST
-setInterval(()=>{
-  axios.get("https://api.dubaifitmovement.xyz)
-}, 20000)
+setInterval(() => {
+  axios.get("https://api.dubaifitmovement.xyz").catch(() => {});
+}, 20000);
 app.use(cors({
   origin: "https://dubaifitmovement.xyz",
   credentials: true
