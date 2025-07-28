@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import axios from "axios"
 import YogaRouter from "./routes/Yoga.js"
-import axios from "axios"
+
 
 
 const app = express();
