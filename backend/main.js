@@ -8,11 +8,19 @@ import cookieParser from "cookie-parser";
 import axios from "axios"
 import YogaRouter from "./routes/Yoga.js"
 
+
+
 const app = express();
 
 // ✅ CORS MUST BE FIRST
+setInterval(() => {
+  axios.get("https://api.dubaifitmovement.xyz").catch(() => {});
+}, 20000);
 app.use(cors({
-  origin: "https://dubaifitmovement.xyz",
+  origin: [
+    "https://dubaifitmovement.xyz",
+    "https://admin.dubaifitmovement.xyz"
+  ],
   credentials: true
 }));
 

@@ -8,20 +8,20 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
-    server: {
-      host: "::",
-      port: 8080,
-      allowedHosts: ["30b331c5-e74d-42f4-b47d-181d7e278fa2-00-w1kjwxdjeqni.pike.replit.dev"]
+  base: '/',
+  server: {
+    host: "::",
+    port: 8080,
+    allowedHosts: ["30b331c5-e74d-42f4-b47d-181d7e278fa2-00-w1kjwxdjeqni.pike.replit.dev"]
+  },
+  plugins: [
+    react(),
+    mode === 'development' && componentTagger(),
+  ].filter(Boolean),
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
-    plugins: [
-      react(),
-      mode === 'development' &&
-      componentTagger(),
-    ].filter(Boolean),
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./src"),
-      },
-    },
+  },
   }
 });

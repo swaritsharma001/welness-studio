@@ -115,7 +115,7 @@ export default function Shop() {
 
   const handleLogin = () => {
     // Redirect to your login page or show modal
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   return (

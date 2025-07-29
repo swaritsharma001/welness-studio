@@ -6,7 +6,7 @@ import axios from "axios"
 
 const router = express.Router()
 
-router.post("/instructor/add", verifyToken, async (req, res) => {
+router.post("/instructor/add", verifyAdmin, async (req, res) => {
   try {
     const { name, price, description, image, rating } = req.body || {};
     if (!name || !price || !description || !image || !rating) {
@@ -100,14 +100,14 @@ async function getIsPaymentDn(id){
       Authorization: `Bearer 7kwu51197gFeeztgA2r8gX1YZmGINOXi2+W/2JKfXuh3jK1FyPBaMZy7NWd4LJJY`
     }
   })
-  console.log(res)
+  
   if(res.data.status === "completed"){
     return true
   }
   return false
 }
 
-router.get("/book", verifyAdmin, async (req, res) => {
+router.get("/book", verifyToken, async (req, res) => {
   try {
     const sessions = await BookSession.find()
       .populate("userId", "name")
@@ -116,22 +116,19 @@ router.get("/book", verifyAdmin, async (req, res) => {
     for (let s of sessions) {
       if (s.ziina_id) {
         const isDn = await getIsPaymentDn(s.ziina_id);
-        if (isDn) {
-          session.status = "processing";
-          await order.save();
-        } else {
- session.status = "pending";
-          await order.save();
-        }
+        s.status = isDn ? "confirmed" : "pending";
+        await s.save(); // Save the individual session
       }
     }
+
     res.status(200).json(sessions);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Failed to fetch sessions" });
   }
 });
 
-router.delete("/book/:id", verifyAdmin, async (req, res) => {
+router.delete("/book/:id", verifyToken, async (req, res) => {
   try {
     const deleted = await BookSession.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Not found" });
@@ -141,7 +138,7 @@ router.delete("/book/:id", verifyAdmin, async (req, res) => {
   }
 });
 
-router.patch("/book/status/:id", verifyAdmin, async (req, res) => {
+router.patch("/book/status/:id", verifyToken, async (req, res) => {
   try {
     const { status } = req.body || {};
     if (!["pending", "confirmed", "cancelled", "completed"].includes(status)) {

@@ -17,7 +17,7 @@ export async function Createtoken(user){
 // Middleware to verify token
 export async function verifyToken(req, res, next){
   const authHeader = req.headers.authorization;
-const token = authHeader && authHeader.split(" ")[1];
+const token = authHeader && authHeader.split(' ')[1]
   if (!token) return res.status(401).json({ message: "Please login first -- no token" });
 
   try {
@@ -37,7 +37,8 @@ const token = authHeader && authHeader.split(" ")[1];
 }
 
 export async function verifyAdmin(req, res, next){
-  const token = req.cookies?.token;
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1]
   
   if (!token) return res.status(401).json({ message: "Please login first" });
 
@@ -49,7 +50,7 @@ export async function verifyAdmin(req, res, next){
     const user = await User.findById(decoded._id);
     if (!user) return res.status(401).json({ message: "User not found" });
     // Check user role ADMIN OR OWNER
-  if(user.role !== "ADMIN" && user.role !== "OWNER") return res.status(401).json({ message: "You are not an admin"})
+  if(user.role !== "admin" && user.role !== "OWNER") return res.status(401).json({ message: "You are not an admin"})
     // Attach user data to request object
     req.user = user;
     next(); // Continue to next middleware or route handler

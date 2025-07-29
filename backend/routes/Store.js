@@ -20,7 +20,7 @@ const calculateTotal = async (items) => {
   return total;
 };
 
-router.post("/store/add", verifyToken, async (req, res) => {
+router.post("/add", verifyAdmin, async (req, res) => {
   try {
     const { name, description, image, price, category } = req.body || {};
     if (!name || !description || !image || !price || !category) {
@@ -34,7 +34,7 @@ router.post("/store/add", verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/store/delete/:id", verifyToken, verifyAdmin, async (req, res) => {
+router.delete("/delete/:id", verifyToken, verifyAdmin, async (req, res) => {
   try {
     const deleted = await Store.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Item not found" });
@@ -145,8 +145,8 @@ router.post("/pay", verifyToken, async (req, res) => {
         amount: finalAmount * 100,
         currency_code: "AED",
         message: "Order payment",
-        success_url: "www.dubaifitmovement.xyz",
-        cancel_url: "www.dubaifitmovement.xyz",
+        success_url: "https://dubaifitmovement.xyz",
+        cancel_url: "https://dubaifitmovement.xyz",
         failure_url: "www.dubaifitmovement.xyz",
         test: true,
         transaction_source: "directApi",
@@ -207,4 +207,25 @@ router.get("/orders", verifyToken, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.get("/allOrder", verifyAdmin, async (req,res)=>{
+  try {
+    const orders = await Order.find().populate("userId").populate("products.productId")
+    res.status(200).json({orders})
+  } catch (error) {
+    
+  }
+})
+router.put("/updateorderstatus/:id", verifyAdmin, async (req, res)=>{
+  try {
+    const id = req.params.id
+    const order = await Order.findById(id)
+    if(!order) return res.status(404)
+    order.status = req.body.status
+    await order.save()
+    res.status(200)
+  } catch (error) {
+    
+  }
+})
 export default router;

@@ -51,7 +51,7 @@ export function AuthDialog({ open, onOpenChange, mode, onModeChange }: AuthDialo
 
       if (res.status === 200) {
         const token = res.data.token
-        document.cookie = `token=${token}; path=/; domain=.dubaifitmovement.xyz; secure; samesite=None; max-age=${7 * 24 * 60 * 60}`;
+        cookie.set("token", token, {expires: 7})
         toast({
           title: mode === "login" ? "Login Successful" : "Account Created",
           description: mode === "login"

@@ -50,6 +50,7 @@ const getStatusIcon = (status: string) => {
 };
 
 const Orders = () => {
+  const token = cookie.get("token")
   const [orders, setOrders] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState('all');
   const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ const Orders = () => {
         const baseURL = import.meta.env.VITE_API_URL;
         const response = await axios.get(`${baseURL}/api/store/orders`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+            Authorization: `Bearer ${token}`
           },
           withCredentials: true
         });

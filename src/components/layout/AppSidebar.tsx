@@ -40,9 +40,9 @@ const mainItems = [
   { title: "Home", url: "/", icon: Home },
   { title: "Shop", url: "/shop", icon: ShoppingBag },
   { title: "Book Session", url: "/booking", icon: Calendar },
-  { title: "Dashboard", url: "/dashboard", icon: User },
   token ? { title: "Cart", url: "/cart", icon: ShoppingBag } : null,
-  token ? { title: "Orders", url: "/orders", icon: ShoppingBag } : null
+  token ? { title: "Orders", url: "/orders", icon: ShoppingBag } : null,
+   token ? { title: "Dashboard", url: "/dashboard", icon: User } : null,
 ].filter(Boolean); // <-- This line removes the null if ten is falsy
 
 

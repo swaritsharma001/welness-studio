@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Star, CheckCircle, Clock, Users, Heart, Shield, Zap } from "lucide-react";
 
 export default function Instructors() {
+  const token = Cookies.get("token")
   const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -24,7 +25,9 @@ export default function Instructors() {
       setError("");
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/yoga/instructor`, {
-          withCredentials: true
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
         });
         setInstructors(res.data);
       } catch {
@@ -82,7 +85,7 @@ export default function Instructors() {
         },
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           withCredentials: true
