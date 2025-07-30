@@ -156,4 +156,34 @@ router.patch("/book/status/:id", verifyToken, async (req, res) => {
   }
 });
 
+router.get("/allBookedInstrector", async (req, res)=>{
+  try {
+    const data = await BookSession.find().populate("instructorId").populate("userId")
+    //check if instructor id is null then remove it from booking
+    data.forEach(async (item) => {
+      if(item.instructorId === null){
+        await BookSession.findByIdAndDelete(item._id)
+        
+      }
+      if(item.userId === null){
+        await BookSession.findByIdAndDelete(item._id)
+      }
+    })
+    
+    
+    res.status(200).json(data)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+router.post("/updateStatusIns", async (req, res) =>{
+  try {
+    const {id, status} = req.body
+    const data = await BookSession.findByIdAndUpdate(id, {status}, {new: true})
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(500).json({message: "Something went wrong"})
+  }
+})
 export default router;

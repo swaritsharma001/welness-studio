@@ -19,7 +19,9 @@ setInterval(() => {
 app.use(cors({
   origin: [
     "https://dubaifitmovement.xyz",
-    "https://admin.dubaifitmovement.xyz"
+    "https://admin.dubaifitmovement.xyz",
+    "https://30b331c5-e74d-42f4-b47d-181d7e278fa2-00-w1kjwxdjeqni.pike.replit.dev:8080",
+    "https://26cc2fe1-8614-4c9b-b9f1-7ec1d5eedac6-00-1blq4erc0soru.sisko.replit.dev:8080"
   ],
   credentials: true
 }));

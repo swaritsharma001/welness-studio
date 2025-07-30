@@ -39,7 +39,7 @@ const token = cookie.get("token");
 const mainItems = [
   { title: "Home", url: "/", icon: Home },
   { title: "Shop", url: "/shop", icon: ShoppingBag },
-  { title: "Book Session", url: "/booking", icon: Calendar },
+ /* { title: "Book Session", url: "/booking", icon: Calendar },*/
   token ? { title: "Cart", url: "/cart", icon: ShoppingBag } : null,
   token ? { title: "Orders", url: "/orders", icon: ShoppingBag } : null,
    token ? { title: "Dashboard", url: "/dashboard", icon: User } : null,
@@ -59,6 +59,12 @@ const infoPages = [
 ];
 
 export function AppSidebar() {
+  //const token = cookie.get("token")
+  const handleLogout = () => {
+    cookie.remove("token");
+    //setIsAuthenticated(false)
+    window.location.reload();
+  }
   const { state } = useSidebar();
   const { theme, setTheme } = useTheme();
   const location = useLocation();
@@ -120,6 +126,9 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              {token ? <SidebarMenuButton>
+              <button onClick={() => handleLogout()}>Logout</button>
+              </SidebarMenuButton> : null}
               {quickLinks.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>

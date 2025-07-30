@@ -93,6 +93,10 @@ router.get("/cart", verifyToken, async (req, res) => {
     const userId = req.user.id;
     const cart = await Cart.findOne({ userId }).populate("items.productId");
     if (!cart) return res.status(404).json({ message: "Cart is empty" });
+   // /check if any product has been deleted 
+     cart.items = cart.items.filter(item => item.productId !== null)
+    await cart.save()
+    
     const total = await calculateTotal(cart.items);
     res.status(200).json({ cart, total });
   } catch {
@@ -178,7 +182,7 @@ async function getIsPaymentDn(id){
       Authorization: `Bearer 7kwu51197gFeeztgA2r8gX1YZmGINOXi2+W/2JKfXuh3jK1FyPBaMZy7NWd4LJJY`
     }
   })
-  console.log(res)
+
   if(res.data.status === "completed"){
     return true
   }
@@ -188,20 +192,26 @@ router.get("/orders", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const orders = await Order.find({ userId }).populate("products.productId");
-    if (!orders || orders.length === 0) return res.status(404).json({ message: "No orders found" });
+
+    if (!orders || orders.length === 0)
+      return res.status(404).json({ message: "No orders found" });
+
     for (let order of orders) {
-      if (order.ziina_id) {
-        const isDn = await getIsPaymentDn(order.ziina_id);
-        if (isDn) {
-          order.status = "processing";
-          await order.save();
-        } else {
-          order.status = "pending";
-          await order.save();
+      if (order.status === "pending") {
+        if (order.ziina_id) {
+          const isDn = await getIsPaymentDn(order.ziina_id);
+          if (isDn) {
+            order.status = "processing";
+            await order.save();
+          } else {
+            order.status = "pending"; // This is unnecessary; it's already "pending"
+            await order.save();
+          }
         }
       }
     }
-    res.status(200).json({ orders });
+
+    res.status(200).json({ orders }); // ✅ Moved this outside the loop
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

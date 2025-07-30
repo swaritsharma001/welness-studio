@@ -12,12 +12,17 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const token = cookie.get("token");
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+ const handleLogout = () => {
+    cookie.remove("token");
+    setIsAuthenticated(false)
+    window.location.reload();
+ }
   useEffect(() => {
-    const token = cookie.get("token");
+    
     setIsAuthenticated(!!token);
   }, []);
 
@@ -50,15 +55,23 @@ export function Layout({ children }: LayoutProps) {
                 <LogIn className="h-4 w-4 mr-2" />
                 Login
               </Button>
-              <Button
+              {token ? <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleLogout}
+                className="text-sm"
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                Logout
+              </Button> : <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handleAuthClick("signup")}
                 className="text-sm"
               >
                 <UserPlus className="h-4 w-4 mr-2" />
-                Sign Up
-              </Button>
+              Sign up
+              </Button>}
             </div>
           )}
         </header>
